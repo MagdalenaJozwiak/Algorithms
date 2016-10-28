@@ -3,7 +3,7 @@ public class LinkedLists {
 
 	private Node root;
 
-	public LinkedLists() {
+	public void initialiseFirst(){
 		root = new Node(-9);
 		Node n2 = new Node(5);
 		Node n3 = new Node(0);
@@ -15,6 +15,24 @@ public class LinkedLists {
 		n3.setNext(n4);
 		n4.setNext(n5);
 		n5.setNext(n6);
+	}
+	
+	public void initialiseSecond(){
+		root = new Node(15);
+		Node n2 = new Node(0);
+		Node n3 = new Node(5);
+		Node n4 = new Node(-9);
+		this.root.setNext(n2);
+		n2.setNext(n3);
+		n3.setNext(n4);
+	}
+	
+	public void initialiseThird(){
+		root = new Node(21);
+		Node n2 = new Node(-90);
+		Node n3 = new Node(5);
+		this.root.setNext(n2);
+		n2.setNext(n3);
 	}
 
 	public void reverse() {
@@ -100,15 +118,33 @@ public class LinkedLists {
 		return true;
 	}
 	
-//	public boolean overlap(LinkedLists anotherList){
-//		if (anotherList == null) {
-//			System.err.println("Another list empty.");
-//			return false;
-//		}
-//		int currentSize = getLength();
-//		int anotherListSize = anotherList.getLength();
-//		
-//	}
+	public Node overlap(LinkedLists anotherList){
+		if (anotherList == null) {
+			System.err.println("Another list empty.");
+			return null;
+		}
+		int currentSize = getLength();
+		int anotherListSize = anotherList.getLength();
+		int diff = Math.abs(currentSize - anotherListSize);
+		Node shorterListNode = anotherList.root;
+		Node longerListNode = this.root;
+		if(currentSize < anotherListSize){
+			shorterListNode = this.root;
+			longerListNode = anotherList.root;
+		}
+		
+		int index = 0;
+		while(index < diff){
+			longerListNode = longerListNode.getNext();
+			index ++;
+		}
+		while(longerListNode != null && shorterListNode != null && !longerListNode.equals(shorterListNode)){
+			longerListNode = longerListNode.getNext();
+			shorterListNode = shorterListNode.getNext();
+		}
+		
+		return longerListNode != null && longerListNode.equals(shorterListNode) ? longerListNode : null;
+	}
 
 	public void print() {
 		Node next = this.root;
